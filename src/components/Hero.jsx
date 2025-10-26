@@ -22,7 +22,7 @@ const MeditationsStrip = () => {
         <span className="text-xs text-gray-500">10 sessions</span>
       </div>
       <div className="flex gap-3 overflow-x-auto pb-2" role="list">
-        {meditations.map((m, i) => (
+        {meditations.map((m) => (
           <button
             key={m}
             className="shrink-0 px-4 py-2 rounded-full bg-white/70 hover:bg-white text-gray-700 shadow-sm border border-white/40 backdrop-blur"
@@ -41,7 +41,7 @@ export default function Hero({ onOpenSOS }) {
     <section className="relative w-full h-[70vh] md:h-[75vh] rounded-2xl overflow-hidden">
       <div className="absolute inset-0">
         <Spline
-          scene="https://prod.spline.design/kow0cKDK6Tap7xO9/scene.splinecode"
+          scene="https://prod.spline.design/qQUip0dJPqrrPryE/scene.splinecode"
           style={{ width: '100%', height: '100%' }}
         />
       </div>
@@ -56,10 +56,10 @@ export default function Hero({ onOpenSOS }) {
               MindGrow • Gentle mental wellness
             </span>
             <h1 className="text-3xl md:text-5xl font-semibold leading-tight text-gray-900">
-              Grow resilience with an AI companion, mindful tracking, and a garden of small wins.
+              Your private path to mental wellness.
             </h1>
             <p className="text-gray-700 md:text-lg">
-              Calm, private, and supportive. Free plan includes 10 chats a day and a 7-day mood view. Premium unlocks unlimited support and deeper insights.
+              Sign in with email or Google, or continue anonymously. Chat with a supportive AI, set goals, and grow over time.
             </p>
             <div className="flex flex-wrap gap-3">
               <button
@@ -71,23 +71,23 @@ export default function Hero({ onOpenSOS }) {
                 Emergency SOS
               </button>
               <a
+                href="#auth"
+                className="pointer-events-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-gray-800 border border-gray-200 bg-white/80 hover:bg-white"
+              >
+                Get started
+              </a>
+              <a
                 href="#chat"
                 className="pointer-events-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-gray-800 border border-gray-200 bg-white/80 hover:bg-white"
               >
-                Start chatting
-              </a>
-              <a
-                href="#analytics"
-                className="pointer-events-auto inline-flex items-center gap-2 px-4 py-2 rounded-lg text-gray-800 border border-gray-200 bg-white/80 hover:bg-white"
-              >
-                View mood analytics
+                Open chat
               </a>
             </div>
             <div className="flex items-center gap-4 text-sm text-gray-600">
               <div className="flex items-center gap-2">
                 <Shield className="h-4 w-4" /> Privacy-first
               </div>
-              <div>Ethical monetization</div>
+              <div>Anonymous option</div>
             </div>
             <MeditationsStrip />
           </div>

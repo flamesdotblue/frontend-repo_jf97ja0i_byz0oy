@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Hero from './components/Hero';
-import MoodTracker from './components/MoodTracker';
-import Garden from './components/Garden';
+import Onboarding from './components/Onboarding';
+import AuthPanel from './components/AuthPanel';
 import ChatbotPanel from './components/ChatbotPanel';
 
 function BreathingModal({ open, onClose }) {
@@ -22,20 +22,12 @@ function BreathingModal({ open, onClose }) {
     timerRef.current = setInterval(() => {
       setCount((c) => {
         if (c > 1) return c - 1;
-        // cycle: In 4 -> Hold 4 -> Out 6
         setPhase((p) => {
-          if (p === 'Inhale') {
-            setCount(4);
-            return 'Hold';
-          }
-          if (p === 'Hold') {
-            setCount(6);
-            return 'Exhale';
-          }
-          setCount(4);
-          return 'Inhale';
+          if (p === 'Inhale') { setCount(4); return 'Hold'; }
+          if (p === 'Hold') { setCount(6); return 'Exhale'; }
+          setCount(4); return 'Inhale';
         });
-        return 4; // temporary, will be reset above
+        return 4;
       });
     }, 1000);
     return () => clearInterval(timerRef.current);
@@ -85,6 +77,9 @@ function BreathingModal({ open, onClose }) {
 
 export default function App() {
   const [sosOpen, setSosOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [onboarded, setOnboarded] = useState(false);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-[#A8D5BA]/20">
       <header className="mx-auto w-full max-w-6xl px-6 md:px-8 py-4 flex items-center justify-between">
@@ -94,21 +89,31 @@ export default function App() {
         </div>
         <nav className="hidden md:flex items-center gap-6 text-sm text-gray-700">
           <a href="#chat" className="hover:text-gray-900">Chat</a>
-          <a href="#analytics" className="hover:text-gray-900">Mood</a>
-          <a href="#" className="hover:text-gray-900">Garden</a>
-          <a href="#" className="hover:text-gray-900">Community</a>
+          <a href="#auth" className="hover:text-gray-900">Account</a>
+          <a href="#onboarding" className="hover:text-gray-900">Onboarding</a>
         </nav>
         <div className="flex items-center gap-2">
-          <button className="rounded-lg px-3 py-2 text-sm border border-gray-200 bg-white text-gray-800">Sign in</button>
+          {user ? (
+            <span className="text-sm text-gray-700">Hi, {user.name} • <span className="capitalize">{user.plan}</span></span>
+          ) : (
+            <button className="rounded-lg px-3 py-2 text-sm border border-gray-200 bg-white text-gray-800" onClick={()=>window.location.hash = '#auth'}>Sign in</button>
+          )}
           <button className="rounded-lg px-3 py-2 text-sm text-white" style={{ backgroundColor: '#B4A7D6' }}>Go Premium</button>
         </div>
       </header>
 
       <main>
         <Hero onOpenSOS={() => setSosOpen(true)} />
-        <MoodTracker />
-        <Garden />
-        <ChatbotPanel />
+
+        <div id="auth">
+          {!user && <AuthPanel onAuth={(u)=>{ setUser(u); }} />}
+        </div>
+
+        <div id="onboarding">
+          {user && !onboarded && <Onboarding user={user} onComplete={()=>setOnboarded(true)} />}
+        </div>
+
+        <ChatbotPanel plan={user?.plan || 'free'} />
       </main>
 
       <footer className="mx-auto w-full max-w-6xl px-6 md:px-8 py-10 text-sm text-gray-600">
